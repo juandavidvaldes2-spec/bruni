@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRUNI — Reestructuracion de Servicios 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+        :root {
+            --black: #0a0a0a;
+            --white: #fafafa;
+            --cream: #f5f0eb;
+            --gold: #c9a96e;
+            --gold-light: #dcc9a3;
+            --gray: #6b6b6b;
+            --gray-light: #e8e4df;
+            --red: #c44040;
+            --green: #4a8c6f;
+            --blue: #4a6e8c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--black);
+            overflow-x: hidden;
+        }
+
+        /* NAVIGATION */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(250, 250, 250, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gray-light);
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-link {
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray);
+            text-decoration: none;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--black);
+            background: var(--gray-light);
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 40px 80px;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border: 1px solid var(--gold);
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 40px;
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(42px, 7vw, 80px);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            animation: fadeUp 0.8s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--gray);
+            max-width: 600px;
+            line-height: 1.7;
+            animation: fadeUp 0.8s ease 0.4s forwards;
+            opacity: 0;
+        }
+
+        .hero-date {
+            margin-top: 60px;
+            font-size: 13px;
+            color: var(--gray);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: fadeUp 0.8s ease 0.6s forwards;
+            opacity: 0;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            animation: fadeUp 0.8s ease 0.8s forwards, bounce 2s ease infinite 1.5s;
+            opacity: 0;
+        }
+
+        .scroll-indicator span {
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gray);
+        }
+
+        .scroll-indicator .arrow {
+            width: 1px;
+            height: 40px;
+            background: var(--gold);
+            position: relative;
+        }
+
+        .scroll-indicator .arrow::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -4px;
+            width: 9px;
+            height: 9px;
+            border-right: 1px solid var(--gold);
+            border-bottom: 1px solid var(--gold);
+            transform: rotate(45deg);
+        }
+
+        /* SECTIONS */
+        .section {
+            padding: 100px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+        }
+
+        .section-number {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            font-size: 16px;
+            color: var(--gray);
+            max-width: 700px;
+            line-height: 1.7;
+        }
+
+        /* DIVIDER */
+        .divider {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .divider hr {
+            border: none;
+            height: 1px;
+            background: var(--gray-light);
+        }
+
+        /* CARDS */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 36px;
+            transition: all 0.4s ease;
+            border: 1px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+            border-color: var(--gold-light);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon.gold { background: rgba(201, 169, 110, 0.12); }
+        .card-icon.red { background: rgba(196, 64, 64, 0.1); }
+        .card-icon.green { background: rgba(74, 140, 111, 0.1); }
+        .card-icon.blue { background: rgba(74, 110, 140, 0.1); }
+
+        .card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* COMPARISON TABLE */
+        .comparison {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--gray-light);
+        }
+
+        .comparison-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            padding: 20px 32px;
+            background: var(--black);
+            color: var(--white);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            padding: 18px 32px;
+            border-bottom: 1px solid var(--gray-light);
+            font-size: 14px;
+            align-items: center;
+            transition: background 0.2s ease;
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-row:hover {
+            background: rgba(201, 169, 110, 0.04);
+        }
+
+        .comparison-row .label {
+            font-weight: 500;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .tag.included { background: rgba(74, 140, 111, 0.1); color: var(--green); }
+        .tag.extra { background: rgba(196, 64, 64, 0.08); color: var(--red); }
+        .tag.new { background: rgba(201, 169, 110, 0.15); color: #9a7a42; }
+        .tag.removed { background: rgba(107, 107, 107, 0.1); color: var(--gray); text-decoration: line-through; }
+
+        /* PRICING */
+        .pricing-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .pricing-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid var(--gray-light);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--gold);
+            box-shadow: 0 20px 60px rgba(201, 169, 110, 0.15);
+        }
+
+        .pricing-card.featured::before {
+            content: 'RECOMENDADO';
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--gold);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 6px 40px;
+            transform: rotate(45deg);
+        }
+
+        .pricing-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .pricing-card .price {
+            font-size: 42px;
+            font-weight: 800;
+            margin: 20px 0;
+        }
+
+        .pricing-card .price span {
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--gray);
+        }
+
+        .pricing-card .price-note {
+            font-size: 13px;
+            color: var(--gray);
+            margin-bottom: 24px;
+        }
+
+        .pricing-list {
+            list-style: none;
+        }
+
+        .pricing-list li {
+            padding: 10px 0;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .pricing-list li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--gold);
+            margin-top: 7px;
+            flex-shrink: 0;
+        }
+
+        /* RISK SECTION */
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .risk-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 32px;
+            border-left: 4px solid;
+        }
+
+        .risk-card.warning { border-color: #e6a23c; }
+        .risk-card.danger { border-color: var(--red); }
+        .risk-card.info { border-color: var(--blue); }
+
+        .risk-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .risk-card p {
+            font-size: 14px;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        .risk-card .solution {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: rgba(74, 140, 111, 0.06);
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--green);
+            font-weight: 500;
+        }
+
+        /* REQUIREMENTS */
+        .req-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .req-item {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 24px 32px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .req-item:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+        }
+
+        .req-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--black);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .req-content h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .req-content p {
+            font-size: 13px;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* TIMELINE */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--gold-light);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 0 0 48px 32px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gold);
+            border: 3px solid var(--cream);
+        }
+
+        .timeline-item h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .timeline-item .time {
+            font-size: 12px;
+            color: var(--gold);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .timeline-item p {
+            font-size: 14px;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 80px 40px;
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .footer h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+
+        .footer p {
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+        }
+
+        .footer .confidential {
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* SUMMARY BOXES */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .summary-box {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+
+        .summary-box .number {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--gold);
+        }
+
+        .summary-box .label {
+            font-size: 13px;
+            color: var(--gray);
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .nav { padding: 12px 20px; }
+            .nav-links { display: none; }
+            .section { padding: 60px 20px; }
+            .comparison-header, .comparison-row { grid-template-columns: 1.5fr 1fr 1fr; padding: 14px 16px; font-size: 12px; }
+            .summary-grid { grid-template-columns: 1fr; }
+            .pricing-container { grid-template-columns: 1fr; }
+            .risk-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="nav">
+        <div class="nav-logo">BRUNI</div>
+        <div class="nav-links">
+            <a class="nav-link active" onclick="scrollTo_('hero')">Inicio</a>
+            <a class="nav-link" onclick="scrollTo_('diagnostico')">Diagnostico</a>
+            <a class="nav-link" onclick="scrollTo_('estructura')">Estructura</a>
+            <a class="nav-link" onclick="scrollTo_('riesgos')">Riesgos</a>
+            <a class="nav-link" onclick="scrollTo_('pricing')">Inversion</a>
+            <a class="nav-link" onclick="scrollTo_('requisitos')">Requisitos</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-badge">Documento Confidencial</div>
+        <h1>Reestructuracion<br>de Servicios 2026</h1>
+        <p>Propuesta de evolucion estrategica: de produccion de contenido a marketing activo con enfoque en trafico, influencers y activaciones.</p>
+        <div class="hero-date">Marzo 2026 &mdash; Preparado para BRUNI</div>
+        <div class="scroll-indicator">
+            <span>Explorar</span>
+            <div class="arrow"></div>
+        </div>
+    </section>
+
+    <div class="divider"><hr></div>
+
+    <!-- DIAGNOSTICO ACTUAL -->
+    <section class="section fade-in" id="diagnostico">
+        <div class="section-header">
+            <div class="section-number">01 &mdash; Diagnostico</div>
+            <h2 class="section-title">Donde Estamos Hoy</h2>
+            <p class="section-subtitle">Analisis del modelo actual de servicios, costos y las razones detras del cambio solicitado por el cliente.</p>
+        </div>
+
+        <div class="summary-grid fade-in">
+            <div class="summary-box">
+                <div class="number">$1,200</div>
+                <div class="label">Fee Mensual Actual</div>
+            </div>
+            <div class="summary-box">
+                <div class="number">$3,000+</div>
+                <div class="label">Gasto Extra en Producciones</div>
+            </div>
+            <div class="summary-box">
+                <div class="number">8/dia</div>
+                <div class="label">Stories (sin costo adicional)</div>
+            </div>
+        </div>
+
+        <div style="height: 48px;"></div>
+
+        <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 24px;">Servicio Actual Incluido</h3>
+        <div class="comparison">
+            <div class="comparison-header">
+                <span>Servicio</span>
+                <span>Estado</span>
+                <span>Nuevo Modelo</span>
+            </div>
+            <div class="comparison-row">
+                <span class="label">Manejo de redes sociales</span>
+                <span><span class="tag included">Incluido</span></span>
+                <span><span class="tag included">Se mantiene</span></span>
+            </div>
+            <div class="comparison-row">
+                <span class="label">12 posts mensuales</span>
+                <span><span class="tag included">Incluido</span></span>
+                <span><span class="tag included">Se mantiene</span></span>
+            </div>
+            <div class="comparison-row">
+                <span class="label">8 stories diarios</span>
+                <span><span class="tag included">Incluido*</span></span>
+                <span><span class="tag new">Redefinir</span></span>
+            </div>
+            <div class="comparison-row">
+                <span class="label">Produccion mensual (4 videos + 20 fotos)</span>
+                <span><span class="tag included">Incluido</span></span>
+                <span><span class="tag removed">Eliminado</span></span>
+            </div>
+            <div class="comparison-row">
+                <span class="label">Comunicacion diaria + 2 grupos WhatsApp</span>
+                <span><span class="tag included">Incluido</span></span>
+                <span><span class="tag new">Reducir a 1</span></span>
+            </div>
+            <div class="comparison-row">
+                <span class="label">Reunion presencial mensual + roadmap</span>
+                <span><span class="tag included">Incluido</span></span>
+                <span><span class="tag included">Se mantiene</span></span>
+            </div>
+            <div class="comparison-row">
+                <span class="label">Fee fotografo + videografo ($400)</span>
+                <span><span class="tag included">Incluido</span></span>
+                <span><span class="tag removed">Por fuera</span></span>
+            </div>
+            <div class="comparison-row">
+                <span class="label">Gestion de influencers</span>
+                <span><span class="tag extra">No incluido</span></span>
+                <span><span class="tag new">Nuevo servicio</span></span>
+            </div>
+            <div class="comparison-row">
+                <span class="label">Brand guidelines para influencers</span>
+                <span><span class="tag extra">No incluido</span></span>
+                <span><span class="tag new">Nuevo servicio</span></span>
+            </div>
+            <div class="comparison-row">
+                <span class="label">Producciones grandes (4/ano)</span>
+                <span><span class="tag extra">Extra</span></span>
+                <span><span class="tag extra">Fee adicional</span></span>
+            </div>
+        </div>
+
+        <p style="margin-top: 16px; font-size: 13px; color: var(--gray);">* Los 8 stories diarios fueron incrementados desde los 5 originales sin ajuste de precio.</p>
+    </section>
+
+    <div class="divider"><hr></div>
+
+    <!-- NUEVA ESTRUCTURA -->
+    <section class="section fade-in" id="estructura">
+        <div class="section-header">
+            <div class="section-number">02 &mdash; Nueva Estructura</div>
+            <h2 class="section-title">Modelo Evolutivo</h2>
+            <p class="section-subtitle">Separacion clara de servicios en pilares independientes para mayor transparencia, control de costos y escalabilidad.</p>
+        </div>
+
+        <div class="card-grid">
+            <div class="card fade-in">
+                <div class="card-icon gold">A</div>
+                <h3>Pilar Base: Community Management</h3>
+                <p>Manejo completo de redes sociales con contenido organico y de catalogo. Incluye 12 posts mensuales, stories estrategicos diarios, copies, planificacion, reunion mensual y 1 canal de comunicacion. El contenido ahora sera mas organico: fotos de catalogo, contenido de tienda, videos casuales y collabs con influencers.</p>
+            </div>
+            <div class="card fade-in">
+                <div class="card-icon green">B</div>
+                <h3>Pilar Nuevo: Influencer Management</h3>
+                <p>Busqueda, negociacion, coordinacion y seguimiento de influencers mensuales. Incluye la creacion de Brand Guidelines completas: lineamientos por formato (reel, carrusel, stories, takeover), referencias visuales, covers, do's & don'ts, y supervision de contenido para coherencia con la grilla de BRUNI.</p>
+            </div>
+            <div class="card fade-in">
+                <div class="card-icon blue">C</div>
+                <h3>Pilar Adicional: Producciones & Extras</h3>
+                <p>4 producciones grandes al ano (mercancia nueva) + ocasiones especiales. Cada produccion se cotiza por separado e incluye direccion creativa, planeacion y coordinacion. Extras disponibles: photoshoots flash en tienda, contenido organico asistido, mini eventos y activaciones.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"><hr></div>
+
+    <!-- RIESGOS Y DESVENTAJAS -->
+    <section class="section fade-in" id="riesgos">
+        <div class="section-header">
+            <div class="section-number">03 &mdash; Analisis de Riesgos</div>
+            <h2 class="section-title">Desventajas & Soluciones</h2>
+            <p class="section-subtitle">Transparencia total sobre los retos del nuevo modelo y como mitigarlos para proteger la calidad de marca.</p>
+        </div>
+
+        <div class="risk-grid">
+            <div class="risk-card danger fade-in">
+                <h4>Banco de Contenido Limitado</h4>
+                <p>Sin producciones mensuales, el contenido premium se agota rapidamente. Solo 4 producciones al ano significan que el material de alta calidad debe estirarse y complementarse constantemente.</p>
+                <div class="solution">Solucion: Establecer un calendario de contenido que distribuya el material premium estrategicamente y lo complemente con contenido organico planificado.</div>
+            </div>
+
+            <div class="risk-card warning fade-in">
+                <h4>Dependencia del Material del Cliente</h4>
+                <p>El contenido organico y de catalogo depende de que el cliente envie material de calidad y a tiempo. Ejemplo real: se enviaron 5 fotos y solo 1 fue utilizable. Esto genera retrasos y carga operativa adicional.</p>
+                <div class="solution">Solucion: Establecer un proceso formal de envio de material con fechas limite, cantidades minimas y criterios de calidad por escrito.</div>
+            </div>
+
+            <div class="risk-card warning fade-in">
+                <h4>Carga Operativa Incrementada</h4>
+                <p>Buscar productos, seleccionar fotos de catalogo y crear contenido desde material no profesional consume significativamente mas tiempo del equipo que trabajar con material de produccion.</p>
+                <div class="solution">Solucion: Cuantificar las horas adicionales y ajustar la estructura interna. Photoshoots flash como solucion rapida para material web/redes.</div>
+            </div>
+
+            <div class="risk-card danger fade-in">
+                <h4>Riesgo en Coherencia de Marca</h4>
+                <p>Contenido de influencers sin control estricto puede romper la estetica de la marca. Cada influencer tiene su estilo y sin guidelines claras, la grilla pierde coherencia visual.</p>
+                <div class="solution">Solucion: Brand Guidelines obligatorias para cada influencer con aprobacion previa de contenido antes de publicacion.</div>
+            </div>
+
+            <div class="risk-card info fade-in">
+                <h4>Presupuesto de Influencers Indefinido</h4>
+                <p>Sin un presupuesto mensual fijo y confirmado para influencers, no es posible planificar estrategicamente. No podemos negociar, buscar ni cerrar acuerdos sin saber con cuanto contamos.</p>
+                <div class="solution">Solucion: El cliente debe definir un presupuesto mensual fijo y comunicarlo por escrito. Nosotros trabajamos dentro de ese marco.</div>
+            </div>
+
+            <div class="risk-card info fade-in">
+                <h4>8 Stories Diarios con Contenido Organico</h4>
+                <p>Mantener 8 stories diarios sin produccion profesional recurrente es un reto significativo. El contenido organico requiere mas creatividad para mantener el estandar estetico de BRUNI.</p>
+                <div class="solution">Solucion: Redefinir stories como mezcla estrategica: producto + organico + reposts de influencers + interaccion. Evaluar reduccion a 5-6 de alta calidad.</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"><hr></div>
+
+    <!-- PRICING -->
+    <section class="section fade-in" id="pricing">
+        <div class="section-header">
+            <div class="section-number">04 &mdash; Inversion</div>
+            <h2 class="section-title">Estructura de Costos</h2>
+            <p class="section-subtitle">Desglose transparente de la inversion mensual y servicios adicionales disponibles.</p>
+        </div>
+
+        <div class="pricing-container">
+            <div class="pricing-card fade-in">
+                <h3>Community Management</h3>
+                <p style="color: var(--gray); font-size: 14px;">Retainer mensual base</p>
+                <div class="price">$1,200 <span>/ mes</span></div>
+                <p class="price-note">Manejo completo de redes sin produccion</p>
+                <ul class="pricing-list">
+                    <li>12 posts mensuales (catalogo + organico)</li>
+                    <li>Stories diarios estrategicos</li>
+                    <li>Copies y planificacion mensual</li>
+                    <li>Reunion presencial mensual</li>
+                    <li>Roadmap mensual</li>
+                    <li>1 canal de comunicacion</li>
+                    <li>Respuesta a mensajes basica</li>
+                </ul>
+            </div>
+
+            <div class="pricing-card featured fade-in">
+                <h3>Influencer Management</h3>
+                <p style="color: var(--gray); font-size: 14px;">Gestion mensual de influencers</p>
+                <div class="price">$400-600 <span>/ mes</span></div>
+                <p class="price-note">Segun volumen de influencers y activaciones</p>
+                <ul class="pricing-list">
+                    <li>Busqueda y seleccion mensual</li>
+                    <li>Negociacion y cierre</li>
+                    <li>Coordinacion de entregas</li>
+                    <li>Supervision de contenido</li>
+                    <li>Brand Guidelines completas</li>
+                    <li>Do's & Don'ts por formato</li>
+                    <li>Reporte mensual de resultados</li>
+                </ul>
+            </div>
+
+            <div class="pricing-card fade-in">
+                <h3>Extras & Producciones</h3>
+                <p style="color: var(--gray); font-size: 14px;">Se cotizan por separado</p>
+                <div class="price" style="font-size: 28px;">A cotizar</div>
+                <p class="price-note">Cada servicio se presupuesta individualmente</p>
+                <ul class="pricing-list">
+                    <li>Produccion grande: $500-800 fee agencia</li>
+                    <li>Photoshoot flash en tienda: $200-350</li>
+                    <li>Mini evento / activacion: $300-800</li>
+                    <li>Contenido organico asistido: $100-200</li>
+                    <li>Costos de produccion (modelos, MUA, locacion) corren por cuenta del cliente</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="margin-top: 40px; background: var(--white); border-radius: 16px; padding: 32px; border: 1px solid var(--gold-light);">
+            <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">Resumen de Inversion Mensual Estimada</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; text-align: center;">
+                <div>
+                    <div style="font-size: 13px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px;">Minimo Mensual</div>
+                    <div style="font-size: 32px; font-weight: 800; margin-top: 8px;">$1,600</div>
+                    <div style="font-size: 12px; color: var(--gray);">Manejo + Influencers basico</div>
+                </div>
+                <div>
+                    <div style="font-size: 13px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Recomendado</div>
+                    <div style="font-size: 32px; font-weight: 800; margin-top: 8px; color: var(--gold);">$1,800</div>
+                    <div style="font-size: 12px; color: var(--gray);">Manejo + Influencers completo</div>
+                </div>
+                <div>
+                    <div style="font-size: 13px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px;">Con Extras</div>
+                    <div style="font-size: 32px; font-weight: 800; margin-top: 8px;">$2,200+</div>
+                    <div style="font-size: 12px; color: var(--gray);">Incluye produccion o evento</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"><hr></div>
+
+    <!-- REQUISITOS DEL CLIENTE -->
+    <section class="section fade-in" id="requisitos">
+        <div class="section-header">
+            <div class="section-number">05 &mdash; Requisitos</div>
+            <h2 class="section-title">Lo que Necesitamos del Cliente</h2>
+            <p class="section-subtitle">Para que el nuevo modelo funcione, estos compromisos son indispensables de parte de BRUNI.</p>
+        </div>
+
+        <div class="req-list">
+            <div class="req-item fade-in">
+                <div class="req-number">1</div>
+                <div class="req-content">
+                    <h4>Presupuesto Mensual de Influencers por Escrito</h4>
+                    <p>Definir un monto fijo mensual destinado a influencers y comunicarlo formalmente. Sin esto, no podemos planificar, negociar ni ejecutar. Si son $3,000, son $3,000 - necesitamos certeza.</p>
+                </div>
+            </div>
+            <div class="req-item fade-in">
+                <div class="req-number">2</div>
+                <div class="req-content">
+                    <h4>Material de Catalogo y Producto a Tiempo</h4>
+                    <p>Enviar fotos de productos, catalogo y material organico con minimo 5 dias habiles de anticipacion. Minimo 15-20 fotos por envio para tener suficiente material utilizable (considerando que no todas se aprueban).</p>
+                </div>
+            </div>
+            <div class="req-item fade-in">
+                <div class="req-number">3</div>
+                <div class="req-content">
+                    <h4>Aprobacion de Contenido en 24-48 Horas</h4>
+                    <p>Para mantener la grilla activa y los stories al dia, las aprobaciones de contenido deben darse dentro de un plazo maximo de 48 horas. Despues de ese plazo, se publica lo aprobado previamente.</p>
+                </div>
+            </div>
+            <div class="req-item fade-in">
+                <div class="req-number">4</div>
+                <div class="req-content">
+                    <h4>Un Solo Canal de Comunicacion</h4>
+                    <p>Consolidar toda la comunicacion en 1 grupo de WhatsApp (no 2). Las solicitudes fuera de ese canal no se garantizan. Esto mejora eficiencia y evita informacion perdida.</p>
+                </div>
+            </div>
+            <div class="req-item fade-in">
+                <div class="req-number">5</div>
+                <div class="req-content">
+                    <h4>Confirmacion de Producciones con 3 Semanas de Anticipacion</h4>
+                    <p>Cada produccion grande debe coordinarse con minimo 3 semanas de anticipacion para asegurar equipo, locacion y modelo. Producciones de ultimo momento tendran un recargo de urgencia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"><hr></div>
+
+    <!-- TIMELINE -->
+    <section class="section fade-in" id="timeline">
+        <div class="section-header">
+            <div class="section-number">06 &mdash; Transicion</div>
+            <h2 class="section-title">Plan de Implementacion</h2>
+            <p class="section-subtitle">Pasos claros para migrar al nuevo modelo sin interrumpir la operacion.</p>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item fade-in">
+                <div class="time">Semana 1</div>
+                <h4>Aprobacion y Firma</h4>
+                <p>Revision del documento, ajustes finales, firma del nuevo acuerdo de servicios con alcances y limites claros.</p>
+            </div>
+            <div class="timeline-item fade-in">
+                <div class="time">Semana 2</div>
+                <h4>Setup de Influencer Management</h4>
+                <p>Creacion de Brand Guidelines completas, definicion de presupuesto de influencers, primera ronda de busqueda y propuestas.</p>
+            </div>
+            <div class="timeline-item fade-in">
+                <div class="time">Semana 3</div>
+                <h4>Transicion de Contenido</h4>
+                <p>Primera grilla con nuevo modelo (catalogo + organico). Recepcion de material del cliente. Ajuste del proceso de aprobacion.</p>
+            </div>
+            <div class="timeline-item fade-in">
+                <div class="time">Semana 4</div>
+                <h4>Operacion Completa</h4>
+                <p>Nuevo modelo en funcionamiento. Primera reunion de evaluacion. Primeros collabs con influencers activos.</p>
+            </div>
+            <div class="timeline-item fade-in">
+                <div class="time">Mes 2</div>
+                <h4>Evaluacion y Optimizacion</h4>
+                <p>Reporte comparativo del primer mes. Ajustes al proceso. Evaluacion de impacto en trafico vs. modelo anterior.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <h2>Listos para Evolucionar</h2>
+        <p>Esta propuesta es el primer paso hacia un modelo mas eficiente,<br>mas enfocado en resultados y mas sostenible para ambas partes.</p>
+        <div class="confidential">Documento Confidencial &mdash; BRUNI x Agencia &mdash; Marzo 2026</div>
+    </div>
+
+    <script>
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Smooth scroll
+        function scrollTo_(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Active nav link on scroll
+        const sections = document.querySelectorAll('.section, .hero');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('onclick')?.includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
